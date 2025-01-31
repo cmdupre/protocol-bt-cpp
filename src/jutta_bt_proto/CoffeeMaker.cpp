@@ -207,6 +207,7 @@ void CoffeeMaker::parse_statistics_data(const std::vector<uint8_t>& data, uint8_
             break;
 
         case StatParseMode::PRODUCT_COUNTERS:
+        case StatParseMode::PRODUCT_COUNTERS_DAILY:
             parse_product_counter_data(actData);
             break;
     }
@@ -494,11 +495,12 @@ std::vector<uint8_t> CoffeeMaker::build_stats_cmd(StatParseMode mode) {
     result[2] = mode & 0x00FF;
 
     // Padding:
-    if (mode == StatParseMode::PRODUCT_COUNTERS) {
-        // Append all products. An alternative is 0xFFFF to force all products.
-        // append_prod_stat_bits() is broken currently since it does not
-        result[3] = 0xFF;
-        result[4] = 0xFF;
+    if (mode == StatParseMode::PRODUCT_COUNTERS ||
+        mode == StatParseMode::PRODUCT_COUNTERS_DAILY) {
+            // Append all products. An alternative is 0xFFFF to force all products.
+            // append_prod_stat_bits() is broken currently since it does not
+            result[3] = 0xFF;
+            result[4] = 0xFF;
     } else {
         result[3] = 1;
         result[4] = 0;

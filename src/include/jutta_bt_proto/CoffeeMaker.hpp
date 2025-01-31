@@ -60,7 +60,9 @@ enum StatParseMode : uint16_t {
     /**
      * Triggers the Joe::maintenancePercentagesChangedEventHandler event handler.
      **/
-    MAINTENANCE_PERCENT = 8
+    MAINTENANCE_PERCENT = 8,
+    // use 0x0010 to get daily counters
+    PRODUCT_COUNTERS_DAILY = 16
 };
 
 struct ManufacturerData {
