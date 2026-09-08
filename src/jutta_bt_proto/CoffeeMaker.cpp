@@ -400,10 +400,12 @@ void CoffeeMaker::stay_in_ble() {
 void CoffeeMaker::on_connected() {
     // Ensure we have the key for deobfuscation ready:
     const std::vector<uint8_t>& manData = bleDevice.get_mam_data();
-    if (manData.empty()) {
+    while (manData.empty()) {
         SPDLOG_WARN("Failed to connect. Invalid manufacturer data.");
-        disconnect();
-        return;
+        //disconnect();
+        //return;
+        SPDLOG_WARN("Retry in 2 seconds...");
+        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
     parse_man_data(manData);
 
